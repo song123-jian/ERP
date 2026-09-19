@@ -1,0 +1,1 @@
+{"executable":"plastic-sales-erp.exe","measured_at":"2026-09-15T16:38:37.1704683Z","dataset_rows":10000,"startup_target_ms":3000,"memory_target_mb":200,"ready_signal":"state/ui_ready.json","ready":true,"app_version":"1.2.4","startup_ms":777.055,"idle_working_set_mb":28.32,"peak_working_set_mb":28.32,"status":"passed","error":null}

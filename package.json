@@ -1,0 +1,35 @@
+{
+  "name": "plastic-sales-erp",
+  "version": "1.2.8",
+  "private": true,
+  "description": "Single-user offline ERP for modified plastic pellet sales",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "perf:release": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\measure-release.ps1",
+    "runtime:webview2": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\fetch-webview2-runtime.ps1",
+    "package:portable": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\package-portable.ps1",
+    "verify:portable": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\verify-portable.ps1",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.57.4",
+    "@tauri-apps/api": "^2.8.0",
+    "lucide-vue-next": "^0.468.0",
+    "naive-ui": "^2.42.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.0",
+    "@types/node": "^22.10.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8",
+    "vue-tsc": "^2.2.0"
+  }
+}

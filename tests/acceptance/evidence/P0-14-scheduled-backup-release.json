@@ -1,0 +1,59 @@
+{
+  "scenario": "P0-14 scheduled backup in an isolated Windows release account",
+  "verified_at_utc": "2026-09-18T11:09:11.7521774Z",
+  "application_version": "1.2.5",
+  "probe_root": "%TEMP%/erp-scheduled-backup-probe-39d7b1a21c9e47a88e6c178662593c93",
+  "runtime": {
+    "webview2_version": "153.0.4234.32",
+    "debug_transport": "WebView2 CDP bound to loopback for this isolated probe only"
+  },
+  "settings": {
+    "backup_schedule_enabled": "1",
+    "backup_schedule_days": "1"
+  },
+  "ui_ready": {
+    "app_version": "1.2.5",
+    "ready_at": "2026-09-18T19:07:05.6508144+08:00"
+  },
+  "first_scheduled_backup": {
+    "file_name": "erp-20260918-190705.663.db",
+    "created_at": "2026-09-18T19:07:05.6754191+08:00",
+    "milliseconds_after_ui_ready": 24.605,
+    "size_bytes": 253952,
+    "schema_version": 6,
+    "checksum": "71cdc35ee1de63c5d5b1e2fbe51862bbd7942ed8c944e27d61abb8fec63749b7",
+    "actual_checksum": "71cdc35ee1de63c5d5b1e2fbe51862bbd7942ed8c944e27d61abb8fec63749b7",
+    "result": "success"
+  },
+  "post_interval_check": {
+    "filesystem_check_after_seconds": 83,
+    "scheduler_check_after_seconds": 126,
+    "backup_count_before_shutdown": 1,
+    "active_native_tasks": [],
+    "duplicate_backup_created": false,
+    "temporary_file_count": 0
+  },
+  "shutdown_check": {
+    "status": "clean",
+    "exit_backup_file_name": "erp-20260918-190911.731.db",
+    "exit_backup_checksum": "93d4b5841a76e4f7f381867d6f5cec9c8e7cbe04b2bcdf624467cb1a754f2305",
+    "exit_backup_actual_checksum": "93d4b5841a76e4f7f381867d6f5cec9c8e7cbe04b2bcdf624467cb1a754f2305",
+    "active_native_tasks_after_shutdown": [],
+    "erp_process_count_after_probe": 0,
+    "probe_webview2_process_count_after_probe": 0
+  },
+  "checks": [
+    "Launch the rebuilt portable executable from an isolated temporary account root",
+    "Wait for state/ui_ready.json and the first backup/manifest.json entry",
+    "Read settings, backup list, and native task snapshots through the real Tauri IPC bridge",
+    "Wait beyond the 60-second scheduler interval and confirm a recent verified backup suppresses duplication",
+    "Recompute SHA-256 for manifest entries and confirm no temporary backup files remain",
+    "Invoke the real shutdown command, confirm clean state and an empty native task registry, then stop the isolated process"
+  ],
+  "result": "passed",
+  "remaining_checks": [
+    "Tray-menu residency and exit",
+    "Real disk-full and directory-permission failures",
+    "Office or antivirus file locking"
+  ]
+}

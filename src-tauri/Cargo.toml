@@ -1,0 +1,28 @@
+[package]
+name = "plastic-sales-erp"
+version = "1.2.8"
+description = "Single-user offline ERP for modified plastic pellet sales"
+authors = ["ERP maintainers"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2.4.1", features = [] }
+
+[dependencies]
+tauri = { version = "2.8.0", features = ["tray-icon"] }
+tauri-plugin-single-instance = "2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rusqlite = { version = "0.37.0", features = ["bundled", "backup"] }
+chrono = { version = "0.4.41", features = ["clock", "serde"] }
+sha2 = "0.10"
+hex = "0.4"
+csv = "1.3"
+base64 = "0.22"
+aes-gcm = "0.10"
+argon2 = "0.5"
+rand = "0.8"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
+default = ["custom-protocol"]

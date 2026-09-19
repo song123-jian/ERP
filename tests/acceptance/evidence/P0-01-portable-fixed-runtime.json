@@ -1,0 +1,53 @@
+{
+  "scenario": "P0-01 portable fixed runtime",
+  "verified_at_utc": "2026-09-18T11:11:00.9663704Z",
+  "application_version": "1.2.5",
+  "platform": "windows",
+  "architecture": "x64",
+  "package_directory": "artifacts/portable/plastic-sales-erp-1.2.5-windows-x64-portable",
+  "archive": "artifacts/portable/plastic-sales-erp-1.2.5-windows-x64-portable.zip",
+  "executable_sha256": "FC9D7A32F087A6F6C619EA2FB2CE500BAD03BBACF9AED4B58D6D802A07AFF58E",
+  "release_manifest_sha256": "4A92FDD42F5EBF87F1387A72DE3F285F6A5DA0DA20B0DA6AFA5BE8B8444DDBE4",
+  "archive_sha256": "02F62120BABAB5ED63F0F1D4076C2FD57F6B1F34008C0CFBCFD5EA4FAAA1CB1C",
+  "archive_bytes": 313654024,
+  "package_file_count": 263,
+  "package_bytes": 711709416,
+  "static_file_count": 261,
+  "static_file_bytes": 711639352,
+  "required_directories": [
+    "data",
+    "backup",
+    "export",
+    "files",
+    "logs",
+    "state",
+    "config"
+  ],
+  "webview2": {
+    "mode": "fixed_runtime",
+    "version": "153.0.4234.32",
+    "archive_sha256": "2CB653A74426F0AA802C2396775C6BC674FD662D5396BD677F47BFA6E12EBA9C",
+    "authenticode_status": "Valid",
+    "runtime_process_count_observed": 6,
+    "runtime_executable": "runtime/webview2/msedgewebview2.exe"
+  },
+  "commands": [
+    "pnpm run runtime:webview2",
+    "pnpm tauri build",
+    "pnpm run package:portable",
+    "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\verify-portable.ps1 -LaunchCheck"
+  ],
+  "result": {
+    "manifest_verified": true,
+    "archive_verified": true,
+    "ui_ready": true,
+    "ui_ready_version": "1.2.5",
+    "bundled_runtime_process_verified": true
+  },
+  "remaining_target_environment_checks": [
+    "Windows 10 and Windows 11 clean machines without a system WebView2 installation",
+    "offline startup and network capture",
+    "standard user account",
+    "USB drive move and drive-letter change"
+  ]
+}

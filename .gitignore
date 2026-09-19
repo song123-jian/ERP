@@ -52,3 +52,25 @@ m4/lt~obsolete.m4
 # can automatically generate from config.status script
 # (which is called by configure script))
 Makefile
+
+# ERP dependencies, builds, and local runtime data
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+artifacts/
+.playwright-cli/
+data/
+backup/
+export/
+files/
+logs/
+state/
+config/
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+*.local
