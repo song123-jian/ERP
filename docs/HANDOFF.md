@@ -3,13 +3,14 @@
 ## 文档元数据
 
 - 项目名称：改性塑料颗粒销售 ERP
-- 最后更新日期：2026-09-19
+- 最后更新日期：2026-10-07
 - 当前阶段：V1.2.8 已增加本地优先的 Supabase 自动同步开关、SQLite 待同步事件队列、合法会话后台重试和云端幂等迁移；未登录或断网不阻断业务写入。V1.2.7 的合同/报价模板、金额自动填充、A4 打印预览、运营评估和恢复演练继续有效；目标 Windows 10/11 的系统无 WebView2、断网、标准账户、U 盘换机/换盘符、真实 Office/杀毒软件占用和原生打印机/PDF 驱动仍待现场
 - 适用环境：Windows 开发机；Vue 3 + Vite 浏览器演示；Tauri 2 release 构建
-- 版本与分支：应用版本 1.2.8；本地 `main` 分支已配置 `origin`
+- 版本与分支：应用版本 1.2.8；本地 `main` 分支跟踪 `origin/main`，2026-10-07 已将现有项目提交推送到 GitHub
 
 ## 当前项目状态
 
+- 仓库状态：现有项目提交 `2c78ac959ea9f06be3607a18b2ad541e5f8869e9` 已上传至 `https://github.com/song123-jian/ERP.git` 的 `main`；远端提交 SHA 已回读核对一致。本次只上传既有提交并维护交接记录，应用版本和既有验收边界不变。
 - 可运行状态：浏览器演示模式可启动并渲染工作台、基础设置、备份、保护模式和 Supabase 云端界面；V1.2.8 源码的前端生产构建、Rust 编译和自动化测试已通过，尚未重建 V1.2.8 Tauri release/绿色包。自动同步默认关闭，开启后业务审计事件与本地业务事务一同写入 `sync_events`；后台每 60 秒及业务写入后尝试同步，未配置、未登录、无工作区或网络失败时只保留队列和状态，不影响本地 SQLite。既有 V1.2.7 release/绿色包、固定 WebView2、恢复与性能验收仍是上一版本有效证据。
 - 当前里程碑：完成离线单人 ERP 的销售、客户跟进、样品测试、报价、合同、订单、采购、对账回款和库存基线，以及本地保护、备份和还原流程。
 - 关键入口：`src/main.ts`、`src/App.vue`、`src-tauri/src/main.rs`。
@@ -47,6 +48,7 @@
 | 2026-09-19 | 加固合同总金额大小写自动填充 | 统一合同明细金额汇总函数，明细弹窗和合同打印模板共用同一金额计算；非法金额按 `0` 处理并显示“零元整”；补充浏览器演示保存后重新读取的合同金额回归测试 | `src/print.ts`、`src/components/DocumentItemsModal.vue`、`tests/domain.test.ts`、`tests/api.test.ts`、`docs/REQUIREMENTS_TRACEABILITY.md`、`tests/acceptance/P0.md` | `pnpm test` 11 项通过；`pnpm exec vue-tsc --noEmit` 通过；`pnpm build` 通过；合同示例保存后仍返回 `236000` 分并可重新读取，小写 `¥2,360.00` 与大写 `贰仟叁佰陆拾元整` 的转换回归通过 | `tests/domain.test.ts`、`tests/api.test.ts`、`src/print.ts` |
 | 2026-09-19 | 接入运营评估与恢复演练 | 将 `OperationalAssessmentPanel` 挂载到“基础设置 → 运营评估”；展示跟进超期率、备份成功率、还原成功率、RPO、RTO 和数据完整率；提供校验通过备份选择、临时 SQLite 恢复演练、错误提示和最近结果；补充响应式样式与浏览器演示命令回归 | `src/App.vue`、`src/components/OperationalAssessmentPanel.vue`、`src/styles.css`、`src/api.ts`、`tests/api.test.ts`、`tests/acceptance/P0.md` | `pnpm exec vue-tsc --noEmit`、`pnpm test`（12 项）、`pnpm build`、`cargo test`（60 通过、1 项性能门禁忽略）通过；本地浏览器可打开运营评估页签并完成一次演练，显示“演练通过”且主库未被替换；页面控制台错误为 0；`cargo fmt --check` 仍受既有 Rust 未格式化差异影响，本轮未格式化无关文件 | `tests/acceptance/evidence/P0-17-operational-assessment.md`、`src/components/OperationalAssessmentPanel.vue`、`tests/api.test.ts` |
 | 2026-09-19 | 增加无需立即登录的自动同步并准备仓库发布 | SQLite schema v9 新增 `cloud_sync_enabled` 与可靠事件队列；设置页提供自动同步开关、待登录/同步中/已同步/失败状态和可选登录入口；合法 Supabase 会话按工作区上传追加式事件，使用设备与本地事件幂等键和强制 RLS；正文采用微软雅黑，合同/报价标题及重点金额采用宋体加粗；版本升至 1.2.8 | `src-tauri/src/main.rs`、`src/cloudSync.ts`、`src/supabase.ts`、`src/api.ts`、`src/App.vue`、`src/components/CloudBackupPanel.vue`、`src/styles.css`、`supabase/migrations/20260919_erp_business_sync.sql` | `cargo test` 62 项通过、1 项按需性能门禁忽略；`cargo check`、`cargo fmt --check`、`pnpm test` 12 项、`pnpm exec vue-tsc --noEmit` 和 `pnpm build` 通过；远端新增迁移尚未执行，真实账号上传仍未验收 | `automatic_sync_queue_is_opt_in_and_keeps_retry_state`、`supabase/migrations/20260919_erp_business_sync.sql`、`README.md` |
+| 2026-10-07 | 上传当前项目到 GitHub 仓库 | 将现有项目提交 `2c78ac959ea9f06be3607a18b2ad541e5f8869e9` 常规推送到 `origin/main`，建立分支跟踪并更新本交接记录 | 原有 75 个变更文件、`docs/HANDOFF.md`、本地分支跟踪配置 | 完成进度：100%，按“现有项目推送且远端回读一致、交接记录写入核验”两项验收（2/2）；`git push --set-upstream origin main` 退出 0，`git ls-remote --refs origin refs/heads/main` 与代码提交 SHA 一致；交接记录回读、定向差异、UTF-8 无 BOM 和 CRLF 核验通过；本次未改程序，不重跑既有应用测试；上传需求无未完成项或阻塞 | 仓库 `https://github.com/song123-jian/ERP`、上述代码提交 SHA、推送与远端回读命令、本文件；既有应用限制和待验项保留 |
 
 ## 合同与报价附件模板本轮补充
 
